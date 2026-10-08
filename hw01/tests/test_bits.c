@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdint.h>
+#include <stdio.h>      // Include standard input/output and integer types         
+#include <stdint.h>    // Include standard input/output and integer types
 
 #include "../bits.h"
 #include "../status.h"
