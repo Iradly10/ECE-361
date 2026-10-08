@@ -41,3 +41,40 @@ float stats_mean(const float a[], int n)
 
     return sum / n;
 }
+
+
+/* Find the longest run above a threshold */
+int stats_longest_run_above(const float a[], int n,
+                            float threshold, int *start_index)
+{
+    int run = 0;
+    int best = 0;
+    int start = 0;
+    int best_start = -1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i] > threshold)
+        {
+            if (run == 0)
+            {
+                start = i;
+            }
+
+            run++;
+
+            if (run > best)
+            {
+                best = run;
+                best_start = start;
+            }
+        }
+        else
+        {
+            run = 0;
+        }
+    }
+
+    *start_index = best_start;
+    return best;
+}
