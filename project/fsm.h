@@ -11,4 +11,6 @@ typedef enum {
     STATE_DONE
 } washer_state_t;
 
+const char *fsm_state_name(washer_state_t state);
+
 #endif
