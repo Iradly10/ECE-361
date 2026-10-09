@@ -29,6 +29,34 @@ float stats_max(const float a[], int n)
     return a[0] > rest ? a[0] : rest;
 }
 
+
+/* Helper function for tail-recursive maximum */
+static float max_tail_helper(const float a[], int n, float best)
+{
+    if (n == 0)
+    {
+        return best;
+    }
+
+    if (a[0] > best)
+    {
+        best = a[0];
+    }
+
+    return max_tail_helper(a + 1, n - 1, best);
+}
+
+/* Find the maximum using tail recursion */
+float stats_max_tail(const float a[], int n)
+{
+    if (n <= 0)
+    {
+        return 0.0f;
+    }
+
+    return max_tail_helper(a + 1, n - 1, a[0]);
+}
+
 /* Calculate the mean */
 float stats_mean(const float a[], int n)
 {

@@ -21,4 +21,7 @@ float stats_mean(const float a[], int n);
 int stats_longest_run_above(const float a[], int n,
                             float threshold, int *start_index);
 
+
+float stats_max_tail(const float a[], int n);
+                         
 #endif
