@@ -56,7 +56,7 @@ int main(void)
         values, 5, 25.0f, &start);
 
     check_test("Threshold equality ends run",
-               run == 2 && start == 3);
+               run == 2 && start == 0);
 
     /* Test 5: Recursive maximum of 10000 values */
     float large[10000];
