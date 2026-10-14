@@ -33,6 +33,39 @@ int main(void)
     check_test("swap_float swaps two values",
                a == 9.0f && b == 5.0f);
 
+    // Test minmax with multiple values
+    float numbers[] = {4.0f, 8.0f, 2.0f, 9.0f, 5.0f};
+    float minimum = 0.0f;
+    float maximum = 0.0f;
+
+    int result = minmax(numbers, 5, &minimum, &maximum);
+
+    check_test("minmax multiple values",
+               result == 0 && minimum == 2.0f && maximum == 9.0f);
+
+    // Test minmax with one value
+    float single[] = {7.0f};
+
+    result = minmax(single, 1, &minimum, &maximum);
+
+    check_test("minmax one value",
+               result == 0 && minimum == 7.0f && maximum == 7.0f);
+
+    // Test minmax with n = 0
+    minimum = 100.0f;
+    maximum = 200.0f;
+
+    result = minmax(numbers, 0, &minimum, &maximum);
+
+    check_test("minmax n equals zero",
+               result == -1 && minimum == 100.0f && maximum == 200.0f);
+
+    // Test minmax with NULL array
+    result = minmax(NULL, 5, &minimum, &maximum);
+
+    check_test("minmax NULL pointer",
+               result == -1 && minimum == 100.0f && maximum == 200.0f);
+
     printf("\nTests run: %d\n", tests_run);
     printf("Tests failed: %d\n", tests_failed);
 
