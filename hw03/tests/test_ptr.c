@@ -88,6 +88,30 @@ int main(void)
     check_test("find_above equal threshold",
                found == NULL);
 
+     
+    // Test reverse with even number of elements
+    float even[] = {1.0f, 2.0f, 3.0f, 4.0f};
+
+    reverse(even, 4);
+
+    check_test("reverse even length",
+               even[0] == 4.0f &&
+               even[1] == 3.0f &&
+               even[2] == 2.0f &&
+               even[3] == 1.0f);
+
+    // Test reverse with odd number of elements
+    float odd[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f};
+
+    reverse(odd, 5);
+
+    check_test("reverse odd length",
+               odd[0] == 5.0f &&
+               odd[1] == 4.0f &&
+               odd[2] == 3.0f &&
+               odd[3] == 2.0f &&
+               odd[4] == 1.0f);
+
                
     printf("\nTests run: %d\n", tests_run);
     printf("Tests failed: %d\n", tests_failed);
