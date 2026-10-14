@@ -66,6 +66,29 @@ int main(void)
     check_test("minmax NULL pointer",
                result == -1 && minimum == 100.0f && maximum == 200.0f);
 
+    // Test find_above with two matches
+    float values[] = {2.0f, 8.0f, 4.0f, 9.0f};
+
+    const float *found = find_above(values, 4, 6.0f);
+
+    check_test("find_above returns first match",
+               found == values + 1);
+
+    // Test find_above with no matches
+    found = find_above(values, 4, 10.0f);
+
+    check_test("find_above no match",
+               found == NULL);
+
+    // Test find_above with equal threshold
+    float equal_values[] = {6.0f, 3.0f, 5.0f};
+
+    found = find_above(equal_values, 3, 6.0f);
+
+    check_test("find_above equal threshold",
+               found == NULL);
+
+               
     printf("\nTests run: %d\n", tests_run);
     printf("Tests failed: %d\n", tests_failed);
 
