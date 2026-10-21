@@ -24,6 +24,8 @@ To run the program, type:
 
 You can enter names one at a time. Press `Control + D` when you're finished entering names.
 
+The program ignores empty lines and lines starting with `#`. It prints the names in alphabetical order with their counts and shows how many names were counted and how many input lines were skipped.
+
 ## How to Test
 
 To run the automated tests, type:
@@ -32,7 +34,13 @@ To run the automated tests, type:
 make test
 ```
 
-The tests check that the tally functions work correctly, including counting names, rejecting invalid inputs, and handling the tally limits.
+The tests check that the tally functions work correctly, including counting names, rejecting invalid inputs, handling the tally limits, reusing destroyed tallies, and printing names in alphabetical order.
+
+When I ran the tests, I got:
+
+```text
+Tests run: 26, failed: 0
+```
 
 ## Opaque Type Explanation
 
@@ -41,3 +49,29 @@ The `tally_t` type is called an opaque type because `tally.h` only tells us that
 The actual structure is defined in `tally.c`, so other files cannot directly access its members. Instead, they must use functions such as `tally_add()`, `tally_count()`, and `tally_size()`.
 
 This helps protect the data and prevents other parts of the program from accidentally changing the tally's internal information.
+
+## Compiler Experiment
+
+I created a temporary file called `opaque_test.c` that included `tally.h`. I tried to access the tally structure directly using:
+
+```c
+int count = t->size;
+```
+
+I compiled the file using:
+
+```bash
+gcc -std=c11 -Wall -Wextra -c opaque_test.c
+```
+
+The compiler gave me this error:
+
+```text
+opaque_test.c:6:18: error: incomplete definition of type 'struct tally'
+```
+
+It also showed a note about the forward declaration of `struct tally` in `tally.h`.
+
+This happened because `tally.h` only declares the structure but does not define its members. The structure is defined inside `tally.c`, so other files cannot directly access `t->size`.
+
+This experiment helped me understand why opaque types are useful. They hide the internal information and make other files use the functions provided by the program instead.
