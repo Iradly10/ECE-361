@@ -1,0 +1,9 @@
+# Sample door events
+front
+back
+front
+side
+back
+front
+garage
+side
