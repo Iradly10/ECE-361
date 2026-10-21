@@ -83,3 +83,43 @@ int tally_add(tally_t *t, const char *name)
 
     return 1;
 }
+int tally_count(const tally_t *t, const char *name)
+{
+    if (t == NULL || name == NULL)
+    {
+        return 0;
+    }
+
+    for (int i = 0; i < t->size; i++)
+    {
+        if (strcmp(t->entries[i].name, name) == 0)
+        {
+            return t->entries[i].count;
+        }
+    }
+
+    return 0;
+}
+int tally_size(const tally_t *t)
+{
+    if (t == NULL)
+    {
+        return 0;
+    }
+
+    return t->size;
+}
+void tally_print(const tally_t *t, FILE *out)
+{
+    if (t == NULL || out == NULL)
+    {
+        return;
+    }
+
+    for (int i = 0; i < t->size; i++)
+    {
+        fprintf(out, "%s %d\n",
+                t->entries[i].name,
+                t->entries[i].count);
+    }
+}
