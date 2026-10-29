@@ -5,11 +5,13 @@
 #include <stddef.h>
 
 /* Read temperature and humidity from the sensor. */
-int sensor_read(uint32_t *base, float *temp_c, float *rh_pct)
+int sensor_read(uint32_t *base,
+                time_t timestamp,
+                reading_t *reading)
 {
     int rc = 0;
 
-    if (base == NULL || temp_c == NULL || rh_pct == NULL)
+    if (base == NULL || reading == NULL)
     {
         return -1;
     }
@@ -30,18 +32,21 @@ int sensor_read(uint32_t *base, float *temp_c, float *rh_pct)
         return rc;
     }
 
-    /* Convert the raw readings into real values. */
-    float temperature = (raw_temp / 1048576.0f) * 200.0f - 50.0f;
-    float humidity = (raw_humid / 1048576.0f) * 100.0f;
+    /* Convert the raw sensor values. */
+    float temperature =
+        (raw_temp / 1048576.0f) * 200.0f - 50.0f;
 
-    /* Round both values to one decimal place. */
+    float humidity =
+        (raw_humid / 1048576.0f) * 100.0f;
+
+    /* Round readings to one decimal place. */
     temperature = roundf(temperature * 10.0f) / 10.0f;
     humidity = roundf(humidity * 10.0f) / 10.0f;
 
-    /* Store the converted values. */
-    *temp_c = temperature;
-    *rh_pct = humidity;
+    /* Save the timestamp and converted readings. */
+    reading->timestamp = timestamp;
+    reading->temp_c = temperature;
+    reading->rh_pct = humidity;
 
-    /* Return zero when the sensor readings succeed. */
     return 0;
 }

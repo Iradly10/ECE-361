@@ -4,15 +4,8 @@
 
 #include <stddef.h>
 #include <stdint.h>
-#include <time.h>
+#include "sensor.h"
 #include "fsm.h"
-
-/* A sensor reading with a timestamp. */
-typedef struct {
-    time_t timestamp;
-    float temp_c;
-    float rh_pct;
-} reading_t;
 
 /* One washing machine record. */
 typedef struct {
@@ -25,8 +18,10 @@ typedef struct {
 typedef struct store store_t;
 
 /* Callback for visiting records. */
-typedef void (*store_visit_fn)(const record_t *record,
-                               void *context);
+typedef void (*store_visit_fn)(
+    const record_t *record,
+    void *context
+);
 
 /* Compare records by state, then timestamp. */
 int record_compare(const record_t *a, const record_t *b);
@@ -37,13 +32,18 @@ void store_destroy(store_t *store);
 
 /* Insert and find records. */
 int store_insert(store_t *store, const record_t *record);
-const record_t *store_find(const store_t *store,
-                           const record_t *key);
+
+const record_t *store_find(
+    const store_t *store,
+    const record_t *key
+);
 
 /* Visit records in sorted order. */
-void store_inorder(const store_t *store,
-                   store_visit_fn visit,
-                   void *context);
+void store_inorder(
+    const store_t *store,
+    store_visit_fn visit,
+    void *context
+);
 
 /* Tree statistics. */
 size_t store_count(const store_t *store);
