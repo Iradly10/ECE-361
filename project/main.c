@@ -7,6 +7,7 @@
 #include <stdbool.h>
 
 #include "iom361_r4.h"
+#include "bits.h"
 #include "sensor.h"
 #include "fsm.h"
 #include "store.h"
@@ -241,14 +242,24 @@ static uint32_t rgb_value(washer_state_t state)
 static uint32_t pack_status(washer_state_t state,
                             uint32_t leds)
 {
-    uint32_t status = (uint32_t)state & 0x7u;
+    uint32_t status = 0;
 
-    status |= (leds & 0xFu) << 3;
-
-    if (state != STATE_IDLE)
-        status |= 0x80u;
+    status = set_field(status, 0, 3, (uint32_t)state);
+    status = set_field(status, 3, 4, leds);
+    status = set_field(status, 7, 1, state != STATE_IDLE ? 1u : 0u);
 
     return status;
+}
+
+/* Unpack status fields using the HW1 functions. */
+static void unpack_status(uint32_t status,
+                          uint32_t *state,
+                          uint32_t *leds,
+                          uint32_t *locked)
+{
+    *state = get_field(status, 0, 3);
+    *leds = get_field(status, 3, 4);
+    *locked = get_field(status, 7, 1);
 }
 
 static void print_trace(time_t timestamp,
@@ -466,6 +477,23 @@ int main(int argc, char *argv[])
         }
 
         uint32_t status = pack_status(state, leds);
+
+        /* Check that the status word unpacks correctly. */
+        uint32_t decoded_state;
+        uint32_t decoded_leds;
+        uint32_t decoded_locked;
+
+        unpack_status(status, &decoded_state,
+                      &decoded_leds, &decoded_locked);
+
+        if (decoded_state != (uint32_t)state ||
+            decoded_leds != leds ||
+            decoded_locked != (state != STATE_IDLE ? 1u : 0u) ||
+            get_field(status, 8, 24) != 0)
+        {
+            failed = 1;
+            break;
+        }
 
         record_t record = {
             .reading = reading,

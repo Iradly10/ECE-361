@@ -4,7 +4,7 @@ CFLAGS = -std=c11 -Wall -Wextra -pedantic -g
 
 TARGET = washer
 
-SRCS = main.c sensor.c fsm.c store.c aux.c report.c iom361_r4.c
+SRCS = main.c sensor.c fsm.c store.c aux.c report.c iom361_r4.c bits.c
 OBJS = $(SRCS:.c=.o)
 
 TEST_BINS = tests/test_fsm tests/test_store tests/test_aux \
