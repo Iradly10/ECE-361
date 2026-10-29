@@ -404,7 +404,7 @@ The door-locked bit is 0 when the machine is in IDLE.
 
 The status word combines several values into a single integer.
 
-The current `main.c` packs the status fields using bit masks and shifts. The assignment also requires the HW1 `get_field()` and `set_field()` functions for packing and unpacking. That implementation still needs to be added and tested.
+I updated `main.c` to use the `get_field()` and `set_field()` functions from Homework 1. These functions help pack the washing machine state, LED values, and door-lock status into a 32-bit integer. I also added `test_status.c` to check the different fields, including all six washing machine states and the LED patterns. All 48 status-word tests passed, which helped me understand how bit fields can store different information in one integer.
 
 ## Event Generation
 
