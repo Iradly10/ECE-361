@@ -50,6 +50,16 @@ test: $(TARGET) $(TEST_BINS)
 	@./washer scenarios/temperature_control.txt > /dev/null
 	@echo "Checking midnight rollover..."
 	@./washer scenarios/midnight.txt > /dev/null
+	@echo "Checking February rollover..."
+	@./washer scenarios/february_rollover.txt | grep -q "2027-03-01 00:00:00"
+	@echo "Checking door-open scenario..."
+	@./washer scenarios/door_open.txt > /dev/null
+	@echo "Checking stack growth..."
+	@./washer scenarios/stack_growth.txt > /dev/null
+	@echo "Checking unexpected input..."
+	@./washer scenarios/unexpected_input.txt > /dev/null
+	@echo "Checking report against expected output..."
+	@./washer scenarios/report.txt --report | diff -u scenarios/report.expected -
 	@echo "All configured tests completed successfully."
 
 clean:
