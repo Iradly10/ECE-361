@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "bits.h"
-#include "fsm.h"
+#include "status.h"
 
 static int tests_run = 0;
 static int tests_passed = 0;
@@ -18,19 +18,6 @@ static int tests_failed = 0;
         printf("FAIL: %s\n", #condition);           \
     }                                               \
 } while (0)
-
-static uint32_t pack_status(washer_state_t state,
-                            uint32_t leds)
-{
-    uint32_t status = 0;
-
-    status = set_field(status, 0, 3, (uint32_t)state);
-    status = set_field(status, 3, 4, leds);
-    status = set_field(status, 7, 1,
-                       state != STATE_IDLE ? 1u : 0u);
-
-    return status;
-}
 
 static void test_status_fields(void)
 {
@@ -77,6 +64,36 @@ static void test_led_patterns(void)
     }
 }
 
+static void test_unpack_status(void)
+{
+    uint32_t status = pack_status(STATE_RINSE, 0x5u);
+
+    uint32_t state = 0;
+    uint32_t leds = 0;
+    uint32_t locked = 0;
+
+    unpack_status(status, &state, &leds, &locked);
+
+    CHECK(state == (uint32_t)STATE_RINSE);
+    CHECK(leds == 0x5u);
+    CHECK(locked == 1u);
+}
+
+static void test_unpack_idle(void)
+{
+    uint32_t status = pack_status(STATE_IDLE, 0u);
+
+    uint32_t state = 0;
+    uint32_t leds = 0;
+    uint32_t locked = 1;
+
+    unpack_status(status, &state, &leds, &locked);
+
+    CHECK(state == (uint32_t)STATE_IDLE);
+    CHECK(leds == 0u);
+    CHECK(locked == 0u);
+}
+
 int main(void)
 {
     printf("Testing Washing Machine Status Word\n\n");
@@ -85,6 +102,8 @@ int main(void)
     test_idle_status();
     test_all_states();
     test_led_patterns();
+    test_unpack_status();
+    test_unpack_idle();
 
     printf("\nTests run: %d\n", tests_run);
     printf("Tests passed: %d\n", tests_passed);

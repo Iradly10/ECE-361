@@ -4,7 +4,7 @@ CFLAGS = -std=c11 -Wall -Wextra -pedantic -g
 
 TARGET = washer
 
-SRCS = main.c sensor.c fsm.c store.c aux.c report.c iom361_r4.c bits.c
+SRCS = main.c sensor.c fsm.c store.c aux.c report.c iom361_r4.c bits.c status.c
 OBJS = $(SRCS:.c=.o)
 
 TEST_BINS = tests/test_fsm tests/test_store tests/test_aux \
@@ -33,8 +33,8 @@ tests/test_report: tests/test_report.c report.c store.c report.h store.h
 tests/test_sensor: tests/test_sensor.c sensor.c sensor.h iom361_r4.h
 	$(CC) $(CFLAGS) -I. tests/test_sensor.c sensor.c -lm -o $@
 
-tests/test_status: tests/test_status.c bits.c bits.h fsm.h
-	$(CC) $(CFLAGS) -I. tests/test_status.c bits.c -o $@
+tests/test_status: tests/test_status.c status.c status.h bits.c bits.h fsm.h
+	$(CC) $(CFLAGS) -I. tests/test_status.c status.c bits.c -o $@
 
 test: $(TARGET) $(TEST_BINS)
 	@echo "Running FSM unit tests..."

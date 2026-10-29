@@ -8,6 +8,7 @@
 
 #include "iom361_r4.h"
 #include "bits.h"
+#include "status.h"
 #include "sensor.h"
 #include "fsm.h"
 #include "store.h"
@@ -236,30 +237,6 @@ static uint32_t rgb_value(washer_state_t state)
         default:
             return 0;
     }
-}
-
-/* Bits 0-2 state, 3-6 LEDs, 7 door locked. */
-static uint32_t pack_status(washer_state_t state,
-                            uint32_t leds)
-{
-    uint32_t status = 0;
-
-    status = set_field(status, 0, 3, (uint32_t)state);
-    status = set_field(status, 3, 4, leds);
-    status = set_field(status, 7, 1, state != STATE_IDLE ? 1u : 0u);
-
-    return status;
-}
-
-/* Unpack status fields using the HW1 functions. */
-static void unpack_status(uint32_t status,
-                          uint32_t *state,
-                          uint32_t *leds,
-                          uint32_t *locked)
-{
-    *state = get_field(status, 0, 3);
-    *leds = get_field(status, 3, 4);
-    *locked = get_field(status, 7, 1);
 }
 
 static void print_trace(time_t timestamp,
