@@ -1,3 +1,4 @@
+
 #include "fsm.h"
 
 /* Return the name of the current washing machine state. */
