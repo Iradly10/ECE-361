@@ -18,4 +18,13 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(TARGET) $(OBJS)
 
-.PHONY: all clean
+.PHONY: all clean test
+
+test: $(TARGET)
+	@echo "Checking normal washing cycle..."
+	@./washer scenarios/normal.txt > /dev/null
+	@echo "Checking temperature control..."
+	@./washer scenarios/temperature_control.txt > /dev/null
+	@echo "Checking midnight rollover..."
+	@./washer scenarios/midnight.txt > /dev/null
+	@echo "Scenario smoke tests completed successfully."
