@@ -62,48 +62,46 @@ The transition table is implemented in `fsm.c` using an array indexed by the cur
 The normal washing cycle follows this path:
 
 ```text
-               START
-        +----------------+
-        |                v
-      IDLE ---> FILL ---> WASH
-       ^                  |
-       |                  v
-      DRAIN <--- SPIN <--- RINSE
-       |
-       +------> IDLE
+         +--------+
+         |  IDLE  |<----------------------+
+         +--------+                       |
+             |                            |
+             | START                      |
+             v                            |
+         +--------+                       |
+         |  FILL  |                       |
+         +--------+                       |
+             |                            |
+             | FILL_COMPLETE              |
+             v                            |
+         +--------+                       |
+         |  WASH  |                       |
+         +--------+                       |
+             |                            |
+             | WASH_COMPLETE              |
+             v                            |
+         +--------+                       |
+         | RINSE  |                       |
+         +--------+                       |
+             |                            |
+             | RINSE_COMPLETE             |
+             v                            |
+         +--------+                       |
+         |  SPIN  |                       |
+         +--------+                       |
+             |                            |
+             | SPIN_COMPLETE              |
+             v                            |
+         +--------+                       |
+         | DRAIN  |                       |
+         +--------+                       |
+             |                            |
+             +------ DRAIN_COMPLETE ------+
 ```
 
-A more detailed view of the normal sequence is:
+If the door opens during FILL, WASH, RINSE, SPIN, or DRAIN, the washing machine stops and returns to IDLE with ACTION_STOP.
 
-```text
-IDLE
-  |
-  | START
-  v
-FILL
-  |
-  | FILL_COMPLETE
-  v
-WASH
-  |
-  | WASH_COMPLETE
-  v
-RINSE
-  |
-  | RINSE_COMPLETE
-  v
-SPIN
-  |
-  | SPIN_COMPLETE
-  v
-DRAIN
-  |
-  | DRAIN_COMPLETE
-  v
-IDLE
-```
-
-If the door opens during FILL, WASH, RINSE, SPIN, or DRAIN, the washing machine stops and returns to IDLE.
+The machine does not automatically restart when the door closes. A new START press is required.
 
 ## State Durations
 
@@ -378,7 +376,7 @@ The report reads the stored records using the functions provided by `store.h`.
 
 The report can be generated with:
 
-./washer scenarios/report.txt --report
+`./washer scenarios/report.txt --report`
 
 ## Status Word
 
@@ -404,7 +402,7 @@ The door-locked bit is 0 when the machine is in IDLE.
 
 The status word combines several values into a single integer.
 
-I updated `main.c` to use the `get_field()` and `set_field()` functions from Homework 1. These functions help pack the washing machine state, LED values, and door-lock status into a 32-bit integer. I also added `test_status.c` to check the different fields, including all six washing machine states and the LED patterns. All 48 status-word tests passed, which helped me understand how bit fields can store different information in one integer.
+I updated `main.c` to use the `get_field()` and `set_field()` functions from Homework 1. These functions help pack the washing machine state, LED values, and door-lock status into a 32-bit integer. I also added `test_status.c` to check the different fields, including all six washing machine states and the LED patterns. All 54 status-word tests passed, which helped me understand how bit fields can store different information in one integer.
 
 ## Event Generation
 
