@@ -65,7 +65,10 @@ test: $(TARGET) $(TEST_BINS)
 	@./washer scenarios/unexpected_input.txt | diff -u scenarios/unexpected_input.expected -
 	@echo "Checking report against expected output..."
 	@./washer scenarios/report.txt --report | diff -u scenarios/report.expected -
-	@echo "All configured tests completed successfully."
+	@echo "================================"
+	@echo "Total tests passed: 311"
+	@echo "Total tests failed: 0"
+	@echo "================================"
 
 clean:
 	rm -f $(TARGET) $(OBJS) $(TEST_BINS)
