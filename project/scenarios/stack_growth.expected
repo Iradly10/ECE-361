@@ -1,0 +1,31 @@
+2025-10-29 16:00:00 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:01 state=FILL temp=23.5 rh=75.0 leds=0x1 status=0x00000089
+2025-10-29 16:00:02 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:03 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:04 state=FILL temp=23.5 rh=75.0 leds=0x1 status=0x00000089
+2025-10-29 16:00:05 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:06 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:07 state=FILL temp=23.5 rh=75.0 leds=0x1 status=0x00000089
+2025-10-29 16:00:08 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:09 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:10 state=FILL temp=23.5 rh=75.0 leds=0x1 status=0x00000089
+2025-10-29 16:00:11 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:12 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:13 state=FILL temp=23.5 rh=75.0 leds=0x1 status=0x00000089
+2025-10-29 16:00:14 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:15 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+2025-10-29 16:00:16 state=FILL temp=23.5 rh=75.0 leds=0x1 status=0x00000089
+2025-10-29 16:00:17 state=IDLE temp=23.5 rh=75.0 leds=0x0 status=0x00000000
+Event history (newest first):
+tick=17 state=IDLE
+tick=16 state=FILL
+tick=14 state=IDLE
+tick=13 state=FILL
+tick=11 state=IDLE
+tick=10 state=FILL
+tick=8 state=IDLE
+tick=7 state=FILL
+tick=5 state=IDLE
+tick=4 state=FILL
+tick=2 state=IDLE
+tick=1 state=FILL
