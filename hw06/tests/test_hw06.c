@@ -6,13 +6,13 @@
 
 #include "panel.h"
 #include "sensor.h"
+#include "scenario.h"
 #include "iom361_r4.h"
 
 // Keep track of test results.
 static int tests_run = 0;
 static int tests_passed = 0;
 
-// Check whether a test passes or fails.
 #define CHECK(condition)                                      \
     do {                                                      \
         tests_run++;                                          \
@@ -71,7 +71,7 @@ static void test_panel_toggle_invalid(void)
     CHECK(panel_toggle(NULL, 100) == -1);
 }
 
-// Test turning LEDs ON, OFF, and toggling.
+// Test LED ON, OFF, and toggle behavior.
 static void test_led_behavior(void)
 {
     int rc = 0;
@@ -123,10 +123,9 @@ static void test_sensor_read(void)
     }
 
     reading_t reading = {0};
-
     time_t timestamp = (time_t)1000;
 
-    // Test normal temperature and humidity.
+    // Normal sensor values.
     _iom361_set_sensor1(21.5f, 40.0f);
 
     CHECK(sensor_read(base, timestamp, &reading) == 0);
@@ -134,21 +133,21 @@ static void test_sensor_read(void)
     CHECK(reading.rh_pct == 40.0f);
     CHECK(reading.t == timestamp);
 
-    // Test temperature of 91 degrees Celsius.
+    // Test 91 degrees Celsius.
     _iom361_set_sensor1(91.0f, 55.0f);
 
     CHECK(sensor_read(base, timestamp, &reading) == 0);
     CHECK(reading.temp_c == 91.0f);
     CHECK(reading.rh_pct == 55.0f);
 
-    // Test rounding to one decimal place.
+    // Test rounding.
     _iom361_set_sensor1(23.46f, 67.84f);
 
     CHECK(sensor_read(base, timestamp, &reading) == 0);
     CHECK(reading.temp_c == 23.5f);
     CHECK(reading.rh_pct == 67.8f);
 
-    // Test that an invalid base does not change the reading.
+    // Failed read must preserve previous values.
     reading_t saved = reading;
 
     CHECK(sensor_read(NULL, timestamp, &reading) != 0);
@@ -156,8 +155,71 @@ static void test_sensor_read(void)
           reading.temp_c == saved.temp_c &&
           reading.rh_pct == saved.rh_pct);
 
-    // Test a NULL output pointer.
     CHECK(sensor_read(base, timestamp, NULL) != 0);
+}
+
+// Test loading a valid scenario file.
+static void test_scenario_load(void)
+{
+    printf("\nTesting scenario_load...\n");
+
+    scenario_t scenario = {0};
+
+    CHECK(scenario_load("scenarios/basic.txt", &scenario) == 0);
+
+    CHECK(scenario.count == 4);
+
+    CHECK(scenario.lines[0].tick == 0);
+    CHECK(scenario.lines[0].temp_c == 21.5f);
+    CHECK(scenario.lines[0].rh_pct == 40.0f);
+    CHECK(scenario.lines[0].switches == 0x0u);
+
+    CHECK(scenario.lines[1].tick == 2);
+    CHECK(scenario.lines[1].switches == 0x1u);
+
+    CHECK(scenario.lines[2].tick == 4);
+    CHECK(scenario.lines[2].temp_c == 22.0f);
+
+    CHECK(scenario.lines[3].tick == 6);
+    CHECK(scenario.lines[3].switches == 0x2u);
+}
+
+// Test finding scenario data by tick.
+static void test_scenario_at(void)
+{
+    printf("\nTesting scenario_at...\n");
+
+    scenario_t scenario = {0};
+
+    if (scenario_load("scenarios/basic.txt", &scenario) != 0) {
+        CHECK(0);
+        return;
+    }
+
+    const scenario_line_t *line;
+
+    line = scenario_at(&scenario, 0);
+    CHECK(line != NULL && line->tick == 0);
+
+    line = scenario_at(&scenario, 1);
+    CHECK(line != NULL && line->tick == 0);
+
+    line = scenario_at(&scenario, 2);
+    CHECK(line != NULL && line->tick == 2);
+
+    line = scenario_at(&scenario, 3);
+    CHECK(line != NULL && line->tick == 2);
+
+    line = scenario_at(&scenario, 4);
+    CHECK(line != NULL && line->tick == 4);
+
+    line = scenario_at(&scenario, 6);
+    CHECK(line != NULL && line->tick == 6);
+
+    line = scenario_at(&scenario, 100);
+    CHECK(line != NULL && line->tick == 6);
+
+    CHECK(scenario_at(NULL, 0) == NULL);
 }
 
 // Run all tests.
@@ -169,6 +231,8 @@ int main(void)
     test_panel_toggle_invalid();
     test_led_behavior();
     test_sensor_read();
+    test_scenario_load();
+    test_scenario_at();
 
     printf("\nTests run: %d\n", tests_run);
     printf("Tests passed: %d\n", tests_passed);
