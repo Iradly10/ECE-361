@@ -222,6 +222,50 @@ static void test_scenario_at(void)
     CHECK(scenario_at(NULL, 0) == NULL);
 }
 
+// Test invalid scenarios and error handling.
+static void test_scenario_invalid(void)
+{
+    printf("\nTesting invalid scenarios...\n");
+
+    scenario_t scenario = {0};
+
+    // Load a valid scenario first.
+    CHECK(scenario_load("scenarios/basic.txt",
+                        &scenario) == 0);
+
+    // Save original data.
+    size_t saved_count = scenario.count;
+    time_t saved_start = scenario.start;
+    unsigned int saved_tick = scenario.lines[0].tick;
+
+    // Duplicate tick on line 5 must be rejected.
+    CHECK(scenario_load(
+        "scenarios/invalid_duplicate_tick.txt",
+        &scenario) == 5);
+
+    // A failed load must preserve existing data.
+    CHECK(scenario.count == saved_count);
+    CHECK(scenario.start == saved_start);
+    CHECK(scenario.lines[0].tick == saved_tick);
+
+    // Missing file must fail.
+    CHECK(scenario_load(
+        "scenarios/does_not_exist.txt",
+        &scenario) != 0);
+
+    // NULL filename must fail.
+    CHECK(scenario_load(NULL, &scenario) != 0);
+
+    // NULL scenario pointer must fail.
+    CHECK(scenario_load(
+        "scenarios/basic.txt", NULL) != 0);
+
+    // Empty scenario has no entries.
+    scenario_t empty = {0};
+
+    CHECK(scenario_at(&empty, 0) == NULL);
+}
+
 // Run all tests.
 int main(void)
 {
@@ -233,6 +277,7 @@ int main(void)
     test_sensor_read();
     test_scenario_load();
     test_scenario_at();
+    test_scenario_invalid();
 
     printf("\nTests run: %d\n", tests_run);
     printf("Tests passed: %d\n", tests_passed);
