@@ -1,0 +1,23 @@
+# Compiled object files
+*.o
+
+# macOS debugging files
+*.dSYM/
+
+# Washing machine executables
+/project/washer
+/project/demo_iom361_r4
+/project/test_iom361_r4
+/project/tests/test_fsm
+/project/tests/test_store
+/project/tests/test_aux
+/project/tests/test_report
+/project/tests/test_sensor
+/project/tests/test_status
+
+# Generated scenario output
+/project/scenarios/*.actual
+
+# Homework 2 generated executables
+/hw02/readings
+/hw02/tests/test_stats
