@@ -50,19 +50,19 @@ test: $(TARGET) $(TEST_BINS)
 	@echo "Running status word unit tests..."
 	@./tests/test_status
 	@echo "Checking normal washing cycle..."
-	@./washer scenarios/normal.txt > /dev/null
+	@./washer scenarios/normal.txt | diff -u scenarios/normal.expected -
 	@echo "Checking temperature control..."
-	@./washer scenarios/temperature_control.txt > /dev/null
+	@./washer scenarios/temperature_control.txt | diff -u scenarios/temperature_control.expected -
 	@echo "Checking midnight rollover..."
-	@./washer scenarios/midnight.txt > /dev/null
+	@./washer scenarios/midnight.txt | diff -u scenarios/midnight.expected -
 	@echo "Checking February rollover..."
-	@./washer scenarios/february_rollover.txt | grep -q "2027-03-01 00:00:00"
+	@./washer scenarios/february_rollover.txt | diff -u scenarios/february_rollover.expected -
 	@echo "Checking door-open scenario..."
-	@./washer scenarios/door_open.txt > /dev/null
+	@./washer scenarios/door_open.txt | diff -u scenarios/door_open.expected -
 	@echo "Checking stack growth..."
-	@./washer scenarios/stack_growth.txt > /dev/null
+	@./washer scenarios/stack_growth.txt | diff -u scenarios/stack_growth.expected -
 	@echo "Checking unexpected input..."
-	@./washer scenarios/unexpected_input.txt > /dev/null
+	@./washer scenarios/unexpected_input.txt | diff -u scenarios/unexpected_input.expected -
 	@echo "Checking report against expected output..."
 	@./washer scenarios/report.txt --report | diff -u scenarios/report.expected -
 	@echo "All configured tests completed successfully."
