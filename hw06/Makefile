@@ -1,9 +1,12 @@
 
 CC = gcc
-CFLAGS = -std=c11 -Wall -Wextra
+CFLAGS = -std=c11 -Wall -Wextra -I.
 LDLIBS = -lm
 
 OBJS = main.o sensor.o panel.o scenario.o iom361_r4.o
+
+TEST_EXE = tests/test_hw06
+TEST_SRCS = tests/test_hw06.c sensor.c panel.c scenario.c iom361_r4.c
 
 .PHONY: all test clean
 
@@ -27,9 +30,11 @@ scenario.o: scenario.c scenario.h
 iom361_r4.o: iom361_r4.c iom361_r4.h
 	$(CC) $(CFLAGS) -c iom361_r4.c
 
-test: replay
-	@echo "Replay program built successfully."
-	@echo "Unit and regression tests will be added next."
+$(TEST_EXE): $(TEST_SRCS) sensor.h panel.h scenario.h iom361_r4.h
+	$(CC) $(CFLAGS) -o $(TEST_EXE) $(TEST_SRCS) $(LDLIBS)
+
+test: replay $(TEST_EXE)
+	./$(TEST_EXE)
 
 clean:
-	rm -f replay *.o tests/*.o tests/test_hw06
+	rm -f replay *.o tests/*.o $(TEST_EXE)
