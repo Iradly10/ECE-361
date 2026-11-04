@@ -1,38 +1,35 @@
 # ECE 361 - Homework 6 AI Usage
 
 ## AI Tool Used
-I used ChatGPT to help me understand and work through Homework 6.
+I used ChatGPT to help me better understand Homework 6 and the different steps needed to complete it.
 
 ## How I Used AI
-- ChatGPT helped me understand the assignment instructions.
-- I received help writing and revising the C code.
-- I learned how sensor registers store temperature and humidity values.
-- ChatGPT explained how bitwise operations control switches and LEDs.
-- I received help understanding how scenario files work.
-- ChatGPT helped me create unit tests and regression tests.
-- I used ChatGPT to troubleshoot errors and understand terminal results.
-- I received help organizing the Makefile and README.
-- ChatGPT provided complete code examples that I could copy,
-  test, and modify while working on the assignment.
+- ChatGPT helped me break down the assignment instructions so I could understand what I needed to do.
+- I used ChatGPT to help me understand how to write and organize my C code.
+- ChatGPT explained how the sensor registers work and how temperature and humidity values are calculated.
+- I learned how switches and LEDs work together using bitwise operations.
+- ChatGPT helped me understand how scenario files are read and how the program uses the information.
+- I received help with code examples, troubleshooting, and making changes when something wasn't working.
+- ChatGPT helped me understand how to create unit tests and regression tests to check my program.
+- I also received guidance on organizing my Makefile, README, and GitHub repository.
 
 ## How I Verified My Work
-I compiled my program using GCC in the terminal.
+After working through the assignment, I used GCC in my terminal to compile and test my program.
 
-I ran the unit tests and regression tests to check my work.
+Whenever I made changes, I ran the tests to see if everything was working correctly. If something didn't work, I used ChatGPT to help me understand the problem and how to fix it.
 
-My latest results were:
+My latest test results were:
 - 73 unit tests passed.
 - 0 unit tests failed.
-- 2 regression tests passed.
+- 5 regression tests passed.
 
-I also used GitHub to save my progress throughout the assignment.
+I also used GitHub to save my progress and keep my files organized.
 
 ## What I Learned
-This homework helped me understand how C programs work with
-hardware registers, sensors, switches, and LEDs.
+This homework helped me better understand how C programs communicate with hardware registers and how sensors, switches, and LEDs work together.
 
-I learned how to organize code into separate files and how
-automated testing helps identify problems.
+I also learned more about using bitwise operations, reading scenario files, and organizing a program into different C and header files.
 
-ChatGPT helped explain the steps while I worked through
-the assignment and checked the results in my terminal.
+One of the biggest things I learned was how important testing is. Running unit tests and regression tests helped me understand whether my code was working correctly and made it easier to find problems.
+
+Overall, ChatGPT was helpful because it explained the different parts of the assignment in a way I could understand. I was able to follow the steps, work with the code examples, test my program, and better understand what each part of my program was doing.
