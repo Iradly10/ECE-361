@@ -15,7 +15,6 @@ I used ChatGPT to help me understand Homework 7 and work through the different p
 - ChatGPT explained how AddressSanitizer and UndefinedBehaviorSanitizer can help detect memory errors.
 - I received guidance on performing the three memory experiments and understanding the errors they produced.
 - ChatGPT helped me troubleshoot testing problems on my Mac and understand how to use Apple's `leaks` tool.
-- I also used ChatGPT to review my README and check my work against the assignment requirements.
 
 ## What I Learned
 
