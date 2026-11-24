@@ -4,14 +4,15 @@
 ChatGPT.
 
 ## How AI Was Used
-- ChatGPT helped me understand the purpose of a hash table.
-- ChatGPT helped me understand implementing the hash table functions and organizing the code.
-- ChatGPT explained how separate chaining handles collisions using linked lists.
+- ChatGPT helped me understand the purpose of hash tables and how they store information.
+- I received assistance with the initial implementation and understanding the purpose of each hash table function.
+- ChatGPT explained how separate chaining uses linked lists to handle collisions.
 - I received help understanding how the modulo operator determines which bucket a key belongs to.
-- ChatGPT explained why duplicate keys increase the count instead of creating new nodes.
-- I received help understanding with dynamic memory allocation and properly freeing memory.
-- I received help understanding why using a prime number of buckets can reduce collisions in the given example.
-
+- ChatGPT helped me understand why duplicate keys increase their count instead of creating additional nodes.
+- I received help understanding dynamic memory allocation and why properly freeing memory is important.
+- ChatGPT explained how the number of buckets affects collisions and the length of each chain.
+- I received assistance understanding why using 1009 buckets reduces collisions in the given example.
+- I ran the tests and memory checks locally to verify that the implementation worked correctly.
 
 ## What I Learned
-Through this assistance, I gained a better understanding of how hash tables work, how collisions are handled, and why memory management is important when working with linked lists in C.
+Through this homework, I gained a better understanding of how hash tables organize data, how separate chaining handles collisions, and how duplicate keys are counted. I also learned why memory management and bucket selection are important when working with hash tables in C.
